@@ -1,5 +1,4 @@
 name: FastAPI Tests with PostgreSQL and uv
-
 on:
   push:
     branches: [main, feat/shared-tenants]
@@ -193,6 +192,14 @@ jobs:
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: sdks/typescript/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('sdks/typescript/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
       - name: Install TypeScript SDK dependencies
         run: bun install
